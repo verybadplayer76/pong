@@ -8,16 +8,30 @@ class Ball {
     this.yVel = 0;
   }
 
-  update() {
-    if (this.x > canvas.width + this.r) {
-      this.x = canvas.width / 2;
-    }
+  playerBounce() {
+    this.xVel = -this.xVel;
+    this.yVel = Math.random() * 3 + 1;
+  }
 
+  wallBounce() {
+    this.yVel = -this.yVel;
+  }
+
+  resetPosition() {
+    this.x = canvas.width / 2;
+  }
+
+  update() {
     this.x += this.xVel;
     this.y += this.yVel;
+
+    if (this.y < this.r || this.y + this.r > canvas.height) {
+      this.wallBounce();
+    }
   }
 
   draw(ctx) {
+    ctx.beginPath();
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
     ctx.fillStyle = "white";
     ctx.fill();
